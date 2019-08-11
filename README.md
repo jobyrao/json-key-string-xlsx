@@ -1,8 +1,8 @@
 # xlsx-json-js
 
-[![build status](http://img.shields.io/travis/diyao/xlsx-json-js/master.svg?style=flat)](http://travis-ci.org/diyao/qq-sheet)
-[![Coverage Status](https://coveralls.io/repos/diyao/xlsx-json-js/badge.svg?branch=)](https://coveralls.io/r/diyao/qq-sheet?branch=master)
-[![npm version](https://img.shields.io/npm/v/xlsx-json-js.svg?style=flat)](https://www.npmjs.com/package/qq-sheet)
+[![build status](http://img.shields.io/travis/diyao/xlsx-json-js/master.svg?style=flat)](http://travis-ci.org/diyao/xlsx-json-js)
+[![Coverage Status](https://coveralls.io/repos/diyao/xlsx-json-js/badge.svg?branch=)](https://coveralls.io/r/diyao/xlsx-json-js?branch=master)
+[![npm version](https://img.shields.io/npm/v/xlsx-json-js.svg?style=flat)](https://www.npmjs.com/package/xlsx-json-js)
 [![license](https://img.shields.io/github/license/diyao/xlsx-json-js.svg)](https://tldrlegal.com/license/mit-license)
 
 ## Install
