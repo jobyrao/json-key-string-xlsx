@@ -23,14 +23,9 @@ const xlsxPath = path.join('./excel.xlsx');
 const nativeData = xlsx2json.parse(xlsxPath);
 ```
 
-### 2. Resolve to a custom structure
+<details>
+  <summary><b>console.log(nativeData)</b> (click to show)</summary>
 
-```JavaScript
-const customData = xlsx2json.parse2json(xlsxPath);
-```
-
-### nativeData && customData
-nativeData
 ```json
 [
   {
@@ -165,7 +160,16 @@ nativeData
 ]
 ```
 
-customData
+</details>
+
+### 2. Resolve to a custom structure
+
+```JavaScript
+const customData = xlsx2json.parse2json(xlsxPath);
+```
+
+<details>
+  <summary><b>console.log(customData)</b> (click to show)</summary>
 
 ```json
 [
@@ -273,6 +277,8 @@ customData
   }
 ]
 ```
+
+</details>
 
 ## License
 
