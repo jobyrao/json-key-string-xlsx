@@ -20,6 +20,7 @@ or
 const xlsx2json = require('xlsx-json-js');
 const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
+
 const nativeData = xlsx2json.parse(xlsxPath);
 ```
 
@@ -96,6 +97,61 @@ const nativeData = xlsx2json.parse(xlsxPath);
       ],
       [
         "companyInfo#require(company)"
+      ],
+      [
+        "for test1.key",
+        "test1 key值，原始",
+        "test1 key value, native"
+      ],
+      [
+        "for test1.key",
+        "test1 key值，再次",
+        "test1 key value, again"
+      ],
+      [
+        "for test1.key2",
+        "test1 key2值",
+        "test1 key2 value"
+      ],
+      [
+        "fortest2[].key",
+        "test2 key值，原始",
+        "test2 key value, native"
+      ],
+      [
+        "fortest2[].key",
+        "test2 key值，再次",
+        "test2 key value, again"
+      ],
+      [
+        "for test2[].key2",
+        "test2 key2值",
+        "test2 key2 value"
+      ],
+      [
+        "for test2[1].key2",
+        "test2 key值，覆盖",
+        "test2 key value, cover"
+      ],
+      [
+        "fortest3.key",
+        "test3 对象",
+        "test3 object"
+      ],
+      [
+        "fortest3[].key",
+        "test3 对象改为数组",
+        "test3 object to array"
+      ],
+      [
+        "fortest4[].key",
+        "test4 数组",
+        "test4 array"
+      ],
+      [
+        "fortest4.key",
+        "test4 数组改为对象",
+        "test4 array to object"
       ]
     ]
   },
@@ -165,13 +221,20 @@ const nativeData = xlsx2json.parse(xlsxPath);
 ### 2. Resolve to a custom structure
 
 ```JavaScript
+const xlsx2json = require('xlsx-json-js');
+const path = require('path');
+const xlsxPath = path.join('./excel.xlsx');
+
 const customData = xlsx2json.parse2json(xlsxPath);
+// console.log(xlsx2json.parse2jsonDataCache);
+// console.log(xlsx2json.parse2jsonCover);
+// console.log(xlsx2json.parsedXlsxData);
 ```
 
 <details>
   <summary><b>console.log(customData)</b> (click to show)</summary>
 
-```json
+```text
 [
   {
     "filename": "cn",
@@ -222,60 +285,49 @@ const customData = xlsx2json.parse2json(xlsxPath);
         ]
       },
       "industry": "互联网"
+    },
+    "fortest1": {
+      "key": "test1 key值，再次",
+      "key2": "test1 key2值"
+    },
+    "fortest2": [
+      {
+        "key": "test2 key值，原始"
+      },
+      {
+        "key2": "test2 key值，覆盖"
+      },
+      {
+        "key2": "test2 key2值"
+      }
+    ],
+    "fortest3": [
+      {
+        "key": "test3 对象改为数组"
+      }
+    ],
+    "fortest4": {
+      "key": "test4 数组改为对象"
     }
   },
   {
     "filename": "en",
-    "lang": "en",
-    "title": "Title of article",
-    "userInfo": [
-      {
-        "name": "username"
-      },
-      {
-        "nickname": "nickname"
-      }
-    ],
-    "disclaimer": {
-      "title": "Disclaimer",
-      "content": [
-        "1. Non-manual retrieval",
-        {
-          "c": {
-            "a": [
-              {
-                "b": [
-                  "6. Right of Network Communication"
-                ]
-              }
-            ]
-          }
-        },
-        "3. Automatic Search Acquisition",
-        "4. Take risks on your own",
-        "5. Right to personal privacy"
-      ]
-    },
-    "statusCode": {
-      "200": "Success",
-      "404": "fail"
-    },
-    "companyInfo": {
-      "name": "company name",
-      "address": {
-        "city": [
-          "guangzhou",
-          "beijing"
-        ],
-        "address": [
-          "Wanda, Panyu District, Guangzhou",
-          "Zhizhen Building"
-        ]
-      },
-      "industry": "Internet"
-    }
+    ......
   }
 ]
+```
+
+</details>
+
+<details>
+  <summary><b>console.log([...xlsx2json.parse2jsonCover])</b> (click to show)</summary>
+
+```text
+[ 'sheet name "main", row 12, value "disclaimer.content[1].c.a[0].b[0]"',
+  'sheet name "main", row 16, value "fortest1.key"',
+  'sheet name "main", row 21, value "fortest2[1].key2"',
+  'sheet name "main", row 23, value "fortest3[].key"',
+  'sheet name "main", row 25, value "fortest4.key"' ]
 ```
 
 </details>
