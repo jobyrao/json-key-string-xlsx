@@ -1,3 +1,10 @@
+0.0.4 / 2019-08-17
+==================
+
+**fixes**
+  * [[`0c5cbf8`](http://github.com/diyao/xlsx-json-js/commit/0c5cbf85f4107a8fc2165b826638bd8807119fd5)] - fix: Repair the content of 'parse2jsonCover'.
+
+
 0.0.3 / 2019-08-15
 ==================
 
