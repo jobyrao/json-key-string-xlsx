@@ -20,7 +20,7 @@ or
 const xlsx2json = require('xlsx-json-js');
 const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
-
+// filepath or buffer
 const nativeData = xlsx2json.parse(xlsxPath);
 ```
 

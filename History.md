@@ -1,3 +1,10 @@
+0.0.5 / 2019-09-28
+==================
+
+**Feature**
+  * [[`b8ab5f3`](http://github.com/diyao/xlsx-json-js/commit/b8ab5f301f16d07b3517ecc358f0f688979820fb)] - Feature: Parsing entries can be specified.
+
+
 0.0.4 / 2019-08-17
 ==================
 
