@@ -1,6 +1,6 @@
 {
   "name": "xlsx-json-js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Parse the'xlsx'file as JSON according to a set of attribute description syntax.",
   "main": "lib/index.js",
   "scripts": {

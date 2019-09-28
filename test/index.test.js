@@ -9,6 +9,7 @@ const testXlsxPath = path.join(__dirname, './assets/excel.xlsx');
 
 describe('原生数据结构parse解析测试', function() {
   const parsedNativeData = xlsx2json.parse(testXlsxPath);
+  const parsedNativeData2 = xlsx2json.parse(testXlsxPath, {entry: 'company', sheets: ['address']});
   it('原生解析：sheet个数完整', function() {
     expect(parsedNativeData.length).to.be.equal(4);
   });
@@ -17,10 +18,19 @@ describe('原生数据结构parse解析测试', function() {
     expect(parsedNativeData[0].data[0][0]).to.be.equal('filename');
     expect(parsedNativeData[3].data[0][0]).to.be.equal('city[]');
   });
+  it('原生解析：指定解析入口', function() {
+    expect(parsedNativeData2[0].sheetName).to.be.equal('company');
+  });
+  it('原生解析：指定解析sheets', function() {
+    expect(parsedNativeData2.length).to.be.equal(2);
+    expect(parsedNativeData2[0].sheetName).to.be.equal('company');
+    expect(parsedNativeData2[1].sheetName).to.be.equal('address');
+  });
 });
 
 describe('自定义数据结构parse2json解析测试', function() {
   const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
+  const parsedCustomData2 = xlsx2json.parse2json(testXlsxPath, {entry: 'company', sheets: ['address']});
   it('自定义解析：语言码个数完整', function() {
     expect(parsedCustomData.length).to.be.equal(2);
   });
@@ -43,5 +53,9 @@ describe('自定义数据结构parse2json解析测试', function() {
   it('自定义解析：其他sheet中#require结构', function() {
     expect(parsedCustomData[0].companyInfo.address.city[0]).to.be.equal('广州市');
     expect(parsedCustomData[1].companyInfo.address.city[0]).to.be.equal('guangzhou');
+  });
+  it('自定义解析：指定入口和sheets', function() {
+    expect(parsedCustomData2[0].address.city[0]).to.be.equal('广州市');
+    expect(parsedCustomData2[1].address.city[0]).to.be.equal('guangzhou');
   });
 });
