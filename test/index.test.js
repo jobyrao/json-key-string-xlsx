@@ -58,4 +58,9 @@ describe('自定义数据结构parse2json解析测试', function() {
     expect(parsedCustomData2[0].address.city[0]).to.be.equal('广州市');
     expect(parsedCustomData2[1].address.city[0]).to.be.equal('guangzhou');
   });
+  it('自定义解析：a[0].name,a[0].nick数组项对象补充写法', function() {
+    expect(parsedCustomData2[0].group[0].name).to.be.equal('蚂蚁');
+    expect(parsedCustomData2[0].group[0].address).to.be.equal('深圳');
+    expect(parsedCustomData2[0].group.length).to.be.equal(2);
+  });
 });
