@@ -43,7 +43,6 @@ class XLSX2JSON {
 	}
 	parse2json(source, options = {}) {
 		// 解析前，对原先数据校零处理。
-    console.log(this);
 		this.zeroCorrection();
 		this.parsedXlsxData = this.parse(source, options);
 
