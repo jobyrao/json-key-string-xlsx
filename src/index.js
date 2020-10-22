@@ -2,8 +2,6 @@
 const XLSX = require('xlsx');
 
 class XLSX2JSON {
-	constructor() {
-	}
 	/**
 	 *
 	 * @param source filepath or buffer
@@ -14,16 +12,16 @@ class XLSX2JSON {
 		const readMethod = typeof source === 'string' ? 'readFile' : 'read';
 		const workbook = XLSX[readMethod](source, options);
 		const result = [];
-		const workbookSheets = Object.keys(workbook.Sheets);
-		if (!options.entry) {
-		  options.entry = workbookSheets[0];
+		const SheetNames = workbook.SheetNames;
+		if (!options.entry || !SheetNames.includes(options.entry)) {
+		  options.entry = SheetNames[0];
     }
-		let parsingSheets = null;
-		if (options.sheets instanceof Array) {
-		  options.sheets.unshift(options.entry);
-      parsingSheets = [...new Set(options.sheets)];
+		let parsingSheetNames = options.sheets || SheetNames;
+		if (parsingSheetNames instanceof Array) {
+      parsingSheetNames.unshift(options.entry);
+      parsingSheetNames = [...new Set(parsingSheetNames)];
     }
-		for (let i of (parsingSheets || workbookSheets)) {
+		for (let i of parsingSheetNames) {
 			const sheetData = workbook.Sheets[i];
 			result.push({
 				sheetName: i,
@@ -39,15 +37,13 @@ class XLSX2JSON {
 				}
 			}
 		}
-		if (/�/.test(JSON.stringify(result))) {
-			console.error('Exceptional characters are found after parsed!');
-			process.exit(0);
-		}
+		if (/�/.test(JSON.stringify(result))) throw new Error('Exceptional characters are found!');
 
 		return result;
 	}
 	parse2json(source, options = {}) {
 		// 解析前，对原先数据校零处理。
+    console.log(this);
 		this.zeroCorrection();
 		this.parsedXlsxData = this.parse(source, options);
 
@@ -63,8 +59,10 @@ class XLSX2JSON {
 		this.parse2jsonCover = new Set();
 	}
 	/**
+   *
 	 * Rotate each'sheet'structure. Fill in the blank'cell'
 	 * @param parsedData
+   * @returns undefined
 	 */
 	static switch2customStructure(parsedData) {
 		for (let i = 0, len = parsedData.length; i < len; i += 1) {
@@ -79,7 +77,14 @@ class XLSX2JSON {
 	 */
 	static rotateMatrix(matrix) {
 		const results = [];
-		for (let i = 0, len = matrix[0].length; i < len; i += 1) {
+		// 首行出现require写法，其他列都是空的。旋转时需注意该列未必是空的列，可能只是require那行是空的。
+		const colLen = [];
+    matrix.forEach(line => {
+      colLen.push(line.length);
+    });
+    const maxColLen = Math.max.apply(null, colLen);
+
+		for (let i = 0, len = maxColLen; i < len; i += 1) {
 			const result = [];
 			for (let j = 0, lenJ = matrix.length; j < lenJ; j += 1) {
 				result[j] = matrix[j][i];
@@ -98,7 +103,7 @@ class XLSX2JSON {
 		for (let i = 0, len = firstCol.length; i < len; i += 1) {
 			if (firstCol[i] === undefined || (firstCol[i].trim && firstCol[i].trim() === '')) {
 				if (i === 0) {
-					console.warn('The first line of the\'json\'attribute description value is forbidden to be null.');
+					console.warn('The first line of the json-attribute description value is forbidden to be null.');
           firstCol[i] = 'firstLineAttrDesc';
 				} else {
           firstCol[i] = firstCol[i - 1];
@@ -153,21 +158,28 @@ class XLSX2JSON {
 		const keyPartKeyIndex = keyFirstPartDesc[2];
 		const isKeyPartEnd = key.length === 0;
 
+		// arr[]、arr[0]
     if (keyPartIsArr) {
+      // arr属性第一次见，先初始化
       if (columnObject[keyPartKeyName] === undefined) {
         columnObject[keyPartKeyName] = [];
       } else if (!Array.isArray(columnObject[keyPartKeyName])) {
+        // arr属性已存在，但不是数组，则需要统计覆盖。并做初始化
         this.collectCoverKey(sheetIndex, rowIndex);
         columnObject[keyPartKeyName] = [];
       }
+      // arr[]写法，无指定index
       if (keyPartKeyIndex === null) {
-        columnObject[keyPartKeyName].push(isKeyPartEnd ? value : {});
+        columnObject[keyPartKeyName].push(isKeyPartEnd ? (value || '') : {});
       } else {
+        // arr[0]写法，指定index
+        // 数组[]在最后，其中arr[0]已经存在
         if (isKeyPartEnd && columnObject[keyPartKeyName][keyPartKeyIndex] !== undefined) {
           this.collectCoverKey(sheetIndex, rowIndex);
         }
+        // 数组[]在最后
         if (isKeyPartEnd) {
-          columnObject[keyPartKeyName][keyPartKeyIndex] = value;
+          columnObject[keyPartKeyName][keyPartKeyIndex] = value || '';
         } else {
           const oldValue = columnObject[keyPartKeyName][keyPartKeyIndex];
           const source = typeof oldValue === 'object' ? oldValue : {};
@@ -177,15 +189,18 @@ class XLSX2JSON {
       const quoteIndex = keyPartKeyIndex || columnObject[keyPartKeyName].length - 1;
       return this.createJsonEnumCol(columnObject[keyPartKeyName][quoteIndex], key, value, colIndex, rowIndex, sheetIndex);
     } else {
+      // key写法
+      // 当前属性key不存在
       if (columnObject[keyPartKeyName] === undefined) {
-        columnObject[keyPartKeyName] = isKeyPartEnd ? value : {};
+        columnObject[keyPartKeyName] = isKeyPartEnd ? (value || '') : {};
       } else if (Object.prototype.toString.call(columnObject[keyPartKeyName]) !== '[object Object]') {
+        // 当前属性key存在，但不是对象，记录覆盖情况
         this.collectCoverKey(sheetIndex, rowIndex);
-        columnObject[keyPartKeyName] = isKeyPartEnd ? value : {};
-      }else {
+        columnObject[keyPartKeyName] = isKeyPartEnd ? (value || '') : {};
+      } else {
         if (isKeyPartEnd) {
           this.collectCoverKey(sheetIndex, rowIndex);
-          columnObject[keyPartKeyName] = value;
+          columnObject[keyPartKeyName] = value || '';
         }
       }
       return this.createJsonEnumCol(columnObject[keyPartKeyName], key, value, colIndex, rowIndex, sheetIndex);
@@ -228,9 +243,9 @@ class XLSX2JSON {
 				break;
 			}
 		}
+
 		if (index === undefined) {
-			console.error(`'required' parameter is not valid: There is no such 'sheet': ${indexOrSheetName}`);
-			process.exit(0);
+			throw new Error(`'required' parameter is not valid: There is no such 'sheet': ${indexOrSheetName}`);
 		}
 		return index;
 	}
@@ -241,5 +256,24 @@ class XLSX2JSON {
 	  this.parse2jsonCover.add(msg);
   }
 }
+// Compatible with syntax of versions before v0.1.0
+const defaultCase = new XLSX2JSON();
+Object.defineProperties(XLSX2JSON, {
+  parse: {
+    value: defaultCase.parse.bind(defaultCase)
+  },
+  parse2json: {
+    value: defaultCase.parse2json.bind(defaultCase)
+  },
+  parse2jsonDaTa: {
+    value: defaultCase.parse2jsonDaTa
+  },
+  parse2jsonCover: {
+    value: defaultCase.parse2jsonCover
+  },
+  parsedXlsxData: {
+    value: defaultCase.parsedXlsxData
+  }
+});
 
-module.exports = new XLSX2JSON();
+module.exports = XLSX2JSON;

@@ -2,5 +2,5 @@
 .nyc_output/
 node_modules/
 test/assets/debug.js
-test/assets/debug.json
+test/assets/*.json
 package-lock.json

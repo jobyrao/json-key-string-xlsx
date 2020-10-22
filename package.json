@@ -1,11 +1,14 @@
 {
   "name": "xlsx-json-js",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Parse the'xlsx'file as JSON according to a set of attribute description syntax.",
-  "main": "lib/index.js",
+  "main": "dist/xlsx-json-js.cjs.js",
+  "module": "dist/xlsx-json-js.esm.js",
+  "browser": "dist/xlsx-json-js.umd.min.js",
   "scripts": {
     "cnpm": "npm i --registry=https://registry.npm.taobao.org",
     "eslint": "eslint .",
+    "build": "node scripts/build.js",
     "test": "mocha -t 10000 -s 2000 test/*.test.js",
     "test-cover": "nyc npm run test",
     "test-travis": "nyc npm run test && nyc report --reporter=text-lcov | coveralls"
@@ -17,7 +20,7 @@
     "json",
     "docs"
   ],
-  "author": "diyao<raojianb@mail2.sysu.edu.cn;raojianb@gmail.com>",
+  "author": "diyao<raojianb@mail2.sysu.edu.cn>",
   "homepage": "https://github.com/diyao/xlsx-json-js#readme",
   "bugs": {
     "url": "https://github.com/diyao/xlsx-json-js/issues"
@@ -27,15 +30,27 @@
     "xlsx": "^0.15.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.7.6",
+    "@rollup/plugin-buble": "^0.20.0",
     "chai": "^4.2.0",
     "eslint": "^4.11.0",
     "eslint-config-egg": "^7.4.1",
     "mocha": "^6.2.0",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "rollup": "^1.27.13",
+    "rollup-plugin-alias": "^2.2.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "terser": "^4.4.3"
   },
   "engines": {
     "node": ">=8.0.0"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/diyao/xlsx-json-js.git"

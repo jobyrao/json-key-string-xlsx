@@ -1,7 +1,8 @@
 'use strict';
 
 const chai = require('chai');
-const xlsx2json = require('../lib/index');
+const XLSX2JSON = require('../src/index');
+const xlsx2json = new XLSX2JSON();
 const path = require('path');
 
 const expect = chai.expect;
@@ -10,8 +11,12 @@ const testXlsxPath = path.join(__dirname, './assets/excel.xlsx');
 describe('原生数据结构parse解析测试', function() {
   const parsedNativeData = xlsx2json.parse(testXlsxPath);
   const parsedNativeData2 = xlsx2json.parse(testXlsxPath, {entry: 'company', sheets: ['address']});
+  try {
+    // 测试require一个不存在sheetName
+    xlsx2json.parse2json(testXlsxPath, {entry: 'requireErr'});
+  } catch (e) {}
   it('原生解析：sheet个数完整', function() {
-    expect(parsedNativeData.length).to.be.equal(4);
+    expect(parsedNativeData.length).to.be.equal(5);
   });
   it('原生解析：sheet数据结构完整', function() {
     expect(parsedNativeData[0].sheetName).to.be.equal('main');
@@ -31,6 +36,7 @@ describe('原生数据结构parse解析测试', function() {
 describe('自定义数据结构parse2json解析测试', function() {
   const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
   const parsedCustomData2 = xlsx2json.parse2json(testXlsxPath, {entry: 'company', sheets: ['address']});
+
   it('自定义解析：语言码个数完整', function() {
     expect(parsedCustomData.length).to.be.equal(2);
   });

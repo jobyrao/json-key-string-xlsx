@@ -5,19 +5,112 @@
 [![npm version](https://img.shields.io/npm/v/xlsx-json-js.svg?style=flat)](https://www.npmjs.com/package/xlsx-json-js)
 [![license](https://img.shields.io/github/license/diyao/xlsx-json-js.svg)](https://tldrlegal.com/license/mit-license)
 
-## Install
+## Introduction
+This library is designed to manage international multilingual documents.
+The excel structure document translated from operation and product is transformed into JSON structure for development.
+
+## Quick Preview
+
+|  |  |  |
+| ---------- | -----------| -----------|
+| title   | 文章标题   | Title of article   |
+| userInfo[0].name   | 用户名   | username   |
+| userInfo[0].nickname | 昵称   | nickname   |
+| disclaimer.content[] | 自行承担风险 | Take risks on your own |
+| disclaimer.content[] | 个人隐私权 | Right to personal privacy |
+
+One of the data structures
+```Json
+[
+  [
+    "title",
+    "文章标题",
+    "Title of article"
+  ],
+  [
+    "userInfo[0].name",
+    "用户名",
+    "username"
+  ],
+  [
+    "userInfo[0].nickname",
+    "昵称",
+    "nickname"
+  ],
+  [
+    "disclaimer.content[]",
+    "自行承担风险",
+    "Take risks on your own"
+  ],
+  [
+    "disclaimer.content[]",
+    "个人隐私权",
+    "Right to personal privacy"
+  ]
+]
+```
+One of the data structures
+```json
+[
+  {
+    "title": "文章标题",
+    "userInfo": [
+      {
+        "name": "用户名",
+        "nickname": "昵称"
+      }
+    ],
+    "disclaimer": {
+      "content": [
+        "自行承担风险",
+        "个人隐私权"
+      ]
+    }
+  },
+  {
+    "title": "Title of article",
+    "userInfo": [
+      {
+        "name": "username",
+        "nickname": "nickname"
+      }
+    ],
+    "disclaimer": {
+      "content": [
+        "Take risks on your own",
+        "Right to personal privacy"
+      ]
+    }
+  }
+]
+```
+## Getting Started
+### Install
 ```bash
 $ npm i xlsx-json-js --save
 ```
-## Usage
+### API change
+The API before v0.1.0 is still compatible, but the new API is recommended.
+```JavaScript
+// before v0.1.0
+const xlsx2json = require('xlsx-json-js');
+
+// After v0.1.0
+const XLSX2JSON = require('xlsx-json-js');
+const xlsx2json = new XLSX2JSON();
+```
+
+### Usage
 The contents of the sample file `excel.xlsx` are as follows.
 [google docs](https://docs.google.com/spreadsheets/d/18BDeB2zNKA2AuMFDMcJuIdHBDaNRskYQPmZIv_1A5p0/edit#gid=1308189912) 
 or 
 [qq docs](https://docs.qq.com/sheet/DY0JTcGNjT3NFcWNw)
-### 1. Parsing into native structure
+
+#### 1. Resolve to two-dimensional array table structure
 
 ```javascript
-const xlsx2json = require('xlsx-json-js');
+const XLSX2JSON = require('xlsx-json-js');
+const xlsx2json = new XLSX2JSON();
 const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
 // filepath or buffer
@@ -218,10 +311,11 @@ const nativeData = xlsx2json.parse(xlsxPath);
 
 </details>
 
-### 2. Resolve to a custom structure
+#### 2. Resolve to a custom JSON structure
 
 ```JavaScript
-const xlsx2json = require('xlsx-json-js');
+const XLSX2JSON = require('xlsx-json-js');
+const xlsx2json = new XLSX2JSON();
 const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
 
