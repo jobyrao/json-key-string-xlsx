@@ -1,3 +1,10 @@
+0.1.0 / 2020-10-22
+==================
+
+**Feature**
+  * [[`ea73520`](http://github.com/diyao/xlsx-json-js/commit/ea735200bfef3b03a7dc54c21f2dc5724a25166d)] - Feature: change api. upgrade test.
+
+
 0.0.5 / 2019-09-28
 ==================
 
