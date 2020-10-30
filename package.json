@@ -1,6 +1,6 @@
 {
   "name": "xlsx-json-js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Parse the'xlsx'file as JSON according to a set of attribute description syntax.",
   "main": "dist/xlsx-json-js.cjs.js",
   "module": "dist/xlsx-json-js.esm.js",
@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "xlsx": "^0.15.0"
+    "xlsx": "0.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
