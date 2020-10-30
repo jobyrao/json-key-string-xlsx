@@ -19,7 +19,7 @@ The excel structure document translated from operation and product is transforme
 | disclaimer.content[] | 自行承担风险 | Take risks on your own |
 | disclaimer.content[] | 个人隐私权 | Right to personal privacy |
 
-One of the data structures
+One of the data structures, Visual structure of tables.
 ```Json
 [
   [
@@ -49,7 +49,7 @@ One of the data structures
   ]
 ]
 ```
-One of the data structures
+One of the data structures, The design purpose of the library.
 ```json
 [
   {
