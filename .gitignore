@@ -1,5 +1,6 @@
 .idea/
 .nyc_output/
+dist/
 node_modules/
 test/assets/debug.js
 test/assets/*.json
