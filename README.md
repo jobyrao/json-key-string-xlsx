@@ -6,26 +6,29 @@
 [![license](https://img.shields.io/github/license/diyao/xlsx-json-js.svg)](https://tldrlegal.com/license/mit-license)
 
 ## Introduction
-This library is designed to manage international multilingual documents.
-The excel structure document translated from operation and product is transformed into JSON structure for development.
+Parse excel file into JSON. Support custom JSON structure. Originally designed to manage international multilingual documents.
 
 ## Quick Preview
+### How to write excel file
+- The first column of Excel is the description of JSON field.
+- Other columns are multilingual items.
 
 |  |  |  |
 | ---------- | -----------| -----------|
-| title   | 文章标题   | Title of article   |
+| lang              | cn   | en   |
 | userInfo[0].name   | 用户名   | username   |
 | userInfo[0].nickname | 昵称   | nickname   |
 | disclaimer.content[] | 自行承担风险 | Take risks on your own |
 | disclaimer.content[] | 个人隐私权 | Right to personal privacy |
 
-One of the data structures, Visual structure of tables.
+### Excel file will be converted to
+1.Resolve to a two-dimensional array. Conform to visual structure.
 ```Json
 [
   [
-    "title",
-    "文章标题",
-    "Title of article"
+    "lang",
+    "cn",
+    "en"
   ],
   [
     "userInfo[0].name",
@@ -49,11 +52,11 @@ One of the data structures, Visual structure of tables.
   ]
 ]
 ```
-One of the data structures, The design purpose of the library.
+2.Resolve to a custom JSON structure.
 ```json
 [
   {
-    "title": "文章标题",
+    "lang": "cn",
     "userInfo": [
       {
         "name": "用户名",
@@ -68,7 +71,7 @@ One of the data structures, The design purpose of the library.
     }
   },
   {
-    "title": "Title of article",
+    "lang": "en",
     "userInfo": [
       {
         "name": "username",
@@ -86,6 +89,23 @@ One of the data structures, The design purpose of the library.
 ```
 ## Getting Started
 ### Install
+In the browser, just add a script tag:
+```html
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+<script src="dist/xlsx-json-js.umd.min.js"></script>
+```
+<details>
+  <summary><b>CDN Availability</b> (click to show)</summary>
+
+|  |  |
+| ---------- | -----------|
+| unpkg   | https://unpkg.com/xlsx-json-js/ |
+| jsDelivr | https://jsdelivr.com/package/npm/xlsx-json-js |
+
+</details>
+
+With npm:
+
 ```bash
 $ npm i xlsx-json-js --save
 ```
@@ -107,7 +127,7 @@ or
 [qq docs](https://docs.qq.com/sheet/DY0JTcGNjT3NFcWNw)
 
 #### 1. Resolve to two-dimensional array table structure
-
+Commonjs
 ```javascript
 const XLSX2JSON = require('xlsx-json-js');
 const xlsx2json = new XLSX2JSON();
@@ -115,6 +135,32 @@ const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
 // filepath or buffer
 const nativeData = xlsx2json.parse(xlsxPath);
+```
+ES Module
+```js
+import xlsxJsonJs from 'xlsx-json-js';
+const xlsx2json = new xlsxJsonJs();
+```
+UMD
+```html
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+<script src="dist/xlsx-json-js.umd.min.js"></script>
+
+<input type="file" name="file" id="file">
+<script type="text/javascript">
+  const xlsx2json = new xlsxJsonJs();
+  function handleFile(e) {
+    const files = e.target.files, f = files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const data = new Uint8Array(e.target.result);
+      const nativeData = xlsx2json.parse(data, {type: 'array'});
+      console.log(nativeData);
+    };
+    reader.readAsArrayBuffer(f);
+  }
+  document.getElementById('file').addEventListener('change', handleFile, false);
+</script>
 ```
 
 <details>
@@ -312,7 +358,7 @@ const nativeData = xlsx2json.parse(xlsxPath);
 </details>
 
 #### 2. Resolve to a custom JSON structure
-
+commonjs
 ```JavaScript
 const XLSX2JSON = require('xlsx-json-js');
 const xlsx2json = new XLSX2JSON();

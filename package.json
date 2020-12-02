@@ -1,7 +1,7 @@
 {
   "name": "xlsx-json-js",
-  "version": "0.1.4",
-  "description": "Parse the'xlsx'file as JSON according to a set of attribute description syntax.",
+  "version": "0.1.5",
+  "description": "Parse excel file into JSON. Support custom JSON structure. 解析Excel成JSON，支持自定义结构。",
   "main": "dist/xlsx-json-js.cjs.min.js",
   "module": "dist/xlsx-json-js.esm.min.js",
   "browser": "dist/xlsx-json-js.umd.min.js",
@@ -15,15 +15,21 @@
   },
   "keywords": [
     "xlsx",
+    "xls",
     "excel",
-    "sheet",
     "json",
-    "docs"
+    "i18n",
+    "lang",
+    "language",
+    "spreadsheet",
+    "workbook",
+    "office"
   ],
   "author": "diyao<raojianb@mail2.sysu.edu.cn>",
   "homepage": "https://github.com/diyao/xlsx-json-js#readme",
   "bugs": {
-    "url": "https://github.com/diyao/xlsx-json-js/issues"
+    "url": "https://github.com/diyao/xlsx-json-js/issues",
+    "email" : "raojianb@mail2.sysu.edu.cn"
   },
   "license": "MIT",
   "dependencies": {
@@ -39,9 +45,9 @@
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "rollup": "^1.27.13",
-    "rollup-plugin-alias": "^2.2.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-external-globals": "^0.6.1",
     "rollup-plugin-node-resolve": "^5.2.0",
     "terser": "^4.4.3"
   },
@@ -49,8 +55,10 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
+  "types": "./types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/diyao/xlsx-json-js.git"

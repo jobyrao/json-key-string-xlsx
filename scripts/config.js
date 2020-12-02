@@ -3,6 +3,7 @@ const path = require('path');
 const babel = require('rollup-plugin-babel');
 const cjs = require('rollup-plugin-commonjs');
 const node = require('rollup-plugin-node-resolve');
+const globals = require('rollup-plugin-external-globals');
 const packageJson = require('../package.json');
 const { version, author } = packageJson;
 const pkgName = packageJson.name.includes('/') ? packageJson.name.split('/')[1] : packageJson.name;
@@ -36,7 +37,7 @@ const builds = {
     format: 'umd',
     env: 'production',
     moduleName: 'xlsxJsonJs',
-    plugins: [node(), cjs()],
+    plugins: [node(), cjs(), globals({xlsx: 'XLSX'})],
     external: ['xlsx'],
     banner
   },
