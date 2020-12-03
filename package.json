@@ -1,7 +1,7 @@
 {
   "name": "xlsx-json-js",
   "version": "0.1.5",
-  "description": "Parse excel file into JSON. Support custom JSON structure. 解析Excel成JSON，支持自定义结构。",
+  "description": "Parse excel(xlsx) file into JSON. Manage excel multi-language. Support custom JSON structure.",
   "main": "dist/xlsx-json-js.cjs.min.js",
   "module": "dist/xlsx-json-js.esm.min.js",
   "browser": "dist/xlsx-json-js.umd.min.js",
@@ -9,6 +9,7 @@
     "cnpm": "npm i --registry=https://registry.npm.taobao.org",
     "eslint": "eslint .",
     "build": "node scripts/build.js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "test": "mocha -t 10000 -s 2000 test/*.test.js",
     "test-cover": "nyc npm run test",
     "test-travis": "nyc npm run test && nyc report --reporter=text-lcov | coveralls"
@@ -29,7 +30,7 @@
   "homepage": "https://github.com/diyao/xlsx-json-js#readme",
   "bugs": {
     "url": "https://github.com/diyao/xlsx-json-js/issues",
-    "email" : "raojianb@mail2.sysu.edu.cn"
+    "email": "raojianb@mail2.sysu.edu.cn"
   },
   "license": "MIT",
   "dependencies": {
@@ -38,10 +39,14 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.7.6",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@rollup/plugin-buble": "^0.20.0",
     "chai": "^4.2.0",
+    "conventional-changelog-cli": "^2.1.1",
     "eslint": "^4.11.0",
     "eslint-config-egg": "^7.4.1",
+    "husky": "^4.3.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "rollup": "^1.27.13",
@@ -59,6 +64,16 @@
     "types"
   ],
   "types": "./types/index.d.ts",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/diyao/xlsx-json-js.git"
