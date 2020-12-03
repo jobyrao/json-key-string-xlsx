@@ -1,6 +1,6 @@
 {
   "name": "xlsx-json-js",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "Parse excel(xlsx) file into JSON. Manage excel multi-language. Support custom JSON structure.",
   "main": "dist/xlsx-json-js.cjs.min.js",
   "module": "dist/xlsx-json-js.esm.min.js",
