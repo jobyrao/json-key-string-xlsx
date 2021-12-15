@@ -70,3 +70,15 @@ describe('自定义数据结构parse2json解析测试', function() {
     expect(parsedCustomData2[0].group.length).to.be.equal(2);
   });
 });
+
+describe('json对象生产excel文件', function() {
+  // 解析出来的是列表，项为某个语种的obj
+  const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
+  const arr2deep = xlsx2json.json2XlsxByKey(parsedCustomData[0]);
+  it('json转为excel平面二维数组一层key正常', function() {
+    expect(arr2deep[0][0]).to.be.equal('filename');
+  });
+  it('json转为excel平面二维数组深度结构正常', function() {
+    expect(arr2deep[7][0]).to.be.equal('disclaimer.content[1].c.a[0].b[0]');
+  });
+})

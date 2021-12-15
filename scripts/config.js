@@ -36,7 +36,7 @@ const builds = {
     dest: resolve(`dist/${pkgName}.umd.min.js`),
     format: 'umd',
     env: 'production',
-    moduleName: 'xlsxJsonJs',
+    moduleName: 'jsonKeyStringXlsx',
     plugins: [node(), cjs(), globals({xlsx: 'XLSX'})],
     external: ['xlsx'],
     banner
@@ -61,7 +61,7 @@ function genConfig (name) {
       file: opts.dest,
       format: opts.format,
       banner: opts.banner,
-      name: opts.moduleName || 'xlsx-json-js'
+      name: opts.moduleName || 'json-key-string-xlsx'
     },
     onwarn: (msg, warn) => {
       if (!/Circular/.test(msg)) {

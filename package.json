@@ -1,10 +1,10 @@
 {
-  "name": "xlsx-json-js",
-  "version": "1.0.0",
-  "description": "Parse excel(xlsx) file into JSON. Manage excel multi-language. Support custom JSON structure.",
-  "main": "dist/xlsx-json-js.cjs.min.js",
-  "module": "dist/xlsx-json-js.esm.min.js",
-  "browser": "dist/xlsx-json-js.umd.min.js",
+  "name": "json-key-string-xlsx",
+  "version": "1.1.0",
+  "description": "Convert between json and xlsx files by key string in a browser or NodeJS.",
+  "main": "dist/json-key-string-xlsx.cjs.min.js",
+  "module": "dist/json-key-string-xlsx.esm.min.js",
+  "browser": "dist/json-key-string-xlsx.umd.min.js",
   "scripts": {
     "cnpm": "npm i --registry=https://registry.npm.taobao.org",
     "eslint": "eslint .",
@@ -15,21 +15,20 @@
     "test-travis": "nyc npm run test && nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [
-    "xlsx",
-    "xls",
     "excel",
     "json",
+    "key",
+    "xlsx",
     "i18n",
     "lang",
     "language",
-    "spreadsheet",
     "workbook",
     "office"
   ],
-  "author": "diyao<raojianb@mail2.sysu.edu.cn>",
-  "homepage": "https://github.com/diyao/xlsx-json-js#readme",
+  "author": "jobyrao<raojianb@mail2.sysu.edu.cn>",
+  "homepage": "https://github.com/jobyrao/json-key-string-xlsx#readme",
   "bugs": {
-    "url": "https://github.com/diyao/xlsx-json-js/issues",
+    "url": "https://github.com/jobyrao/json-key-string-xlsx/issues",
     "email": "raojianb@mail2.sysu.edu.cn"
   },
   "license": "MIT",
@@ -76,6 +75,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diyao/xlsx-json-js.git"
+    "url": "git+https://github.com/jobyrao/json-key-string-xlsx.git"
   }
 }

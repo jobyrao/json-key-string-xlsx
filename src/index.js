@@ -2,6 +2,9 @@
 const XLSX = require('xlsx');
 
 class XLSX2JSON {
+  constructor() {
+    this.keyStack = [];
+  }
 	/**
 	 *
 	 * @param source filepath or buffer
@@ -253,6 +256,58 @@ class XLSX2JSON {
 	  const keyDescName = this.parsedXlsxData[sheetIndex].data[0][rowIndex];
 	  const msg = `sheet name "${sheetName}", row ${rowIndex + 1}, value "${keyDescName}"`;
 	  this.parse2jsonCover.add(msg);
+  }
+  json2XlsxByKey(obj) {
+    const result = [];
+    if (Array.isArray(obj)) {
+      for (let i = 0, len = obj.length; i < len; i++) {
+        if (typeof obj[i] !== 'object') {
+          const preKeys = this.getPreKeyStr();
+          result.push([ `${preKeys}[${i}]`, obj[i] ]);
+        } else {
+          this.keyStack.push({
+            keyName: `[${i}]`,
+            type: 'array'
+          })
+          result.push(...this.json2XlsxByKey(obj[i]));
+        }
+      }
+      this.keyStack.pop();
+    } else {
+      const keys = Object.keys(obj);
+      for (let i = 0, len = keys.length; i < len; i++) {
+        if (typeof obj[keys[i]] !== 'object') {
+          const preKeys = this.getPreKeyStr();
+          result.push([ (preKeys && preKeys + '.') + keys[i], obj[keys[i]] ]);
+        } else {
+          this.keyStack.push({
+            keyName: keys[i],
+            type: 'object'
+          })
+          result.push(...this.json2XlsxByKey(obj[keys[i]]));
+        }
+      }
+      this.keyStack.pop();
+    }
+    return result;
+  }
+  getPreKeyStr() {
+    let preKeyStr = '';
+    if (!this.keyStack.length) {
+      return preKeyStr;
+    }
+    for (let i = 0, len = this.keyStack.length; i < len; i++) {
+      if (i < len - 1) {
+        if (this.keyStack[i + 1].type === 'object') {
+          preKeyStr += this.keyStack[i].keyName + '.';
+        } else {
+          preKeyStr += this.keyStack[i].keyName;
+        }
+      } else {
+        preKeyStr += this.keyStack[i].keyName;
+      }
+    }
+    return preKeyStr;
   }
 }
 // Compatible with syntax of versions before v0.1.0

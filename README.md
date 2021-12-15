@@ -1,15 +1,15 @@
-# xlsx-json-js
+# json-key-string-xlsx
 
-[![build status](http://img.shields.io/travis/diyao/xlsx-json-js/master.svg?style=flat)](http://travis-ci.org/diyao/xlsx-json-js)
-[![Coverage Status](https://coveralls.io/repos/diyao/xlsx-json-js/badge.svg?branch=)](https://coveralls.io/r/diyao/xlsx-json-js?branch=master)
-[![npm version](https://img.shields.io/npm/v/xlsx-json-js.svg?style=flat)](https://www.npmjs.com/package/xlsx-json-js)
-[![license](https://img.shields.io/github/license/diyao/xlsx-json-js.svg)](https://tldrlegal.com/license/mit-license)
+[![build status](http://img.shields.io/travis/jobyrao/json-key-string-xlsx/master.svg?style=flat)](http://travis-ci.org/jobyrao/json-key-string-xlsx)
+[![Coverage Status](https://coveralls.io/repos/jobyrao/json-key-string-xlsx/badge.svg?branch=)](https://coveralls.io/r/jobyrao/json-key-string-xlsx?branch=master)
+[![npm version](https://img.shields.io/npm/v/json-key-string-xlsx.svg?style=flat)](https://www.npmjs.com/package/json-key-string-xlsx)
+[![license](https://img.shields.io/github/license/jobyrao/json-key-string-xlsx.svg)](https://tldrlegal.com/license/mit-license)
 
 ## Introduction
-Parse excel file into JSON. Support custom JSON structure. Originally designed to manage international multilingual documents.
+Convert between json and xlsx files by key string in a browser or NodeJS.
 
 ## Quick Preview
-### How to write excel file
+### How to write excel
 - The first column of Excel is the description of JSON field.
 - Other columns are multilingual items.
 
@@ -91,37 +91,37 @@ Parse excel file into JSON. Support custom JSON structure. Originally designed t
 ### Install
 In the browser, just add a script tag:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
-<script src="dist/xlsx-json-js.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.15.0/dist/xlsx.full.min.js"></script>
+<script src="dist/json-key-string-xlsx.umd.min.js"></script>
 ```
 <details>
   <summary><b>CDN Availability</b> (click to show)</summary>
 
 |  |  |
 | ---------- | -----------|
-| unpkg   | https://unpkg.com/xlsx-json-js/ |
-| jsDelivr | https://jsdelivr.com/package/npm/xlsx-json-js |
+| unpkg   | https://unpkg.com/json-key-string-xlsx/ |
+| jsDelivr | https://jsdelivr.com/package/npm/json-key-string-xlsx |
 
 </details>
 
 With npm:
 
 ```bash
-$ npm i xlsx-json-js --save
+$ npm i json-key-string-xlsx --save
 ```
 ### API change
 The API before v0.1.0 is still compatible, but the new API is recommended.
 ```JavaScript
 // before v0.1.0
-const xlsx2json = require('xlsx-json-js');
+const xlsx2json = require('json-key-string-xlsx');
 
 // After v0.1.0
-const XLSX2JSON = require('xlsx-json-js');
+const XLSX2JSON = require('json-key-string-xlsx');
 const xlsx2json = new XLSX2JSON();
 ```
 
 ### Usage
-The contents of the sample file `excel.xlsx` are as follows.
+Sample files of this document: 
 [google docs](https://docs.google.com/spreadsheets/d/18BDeB2zNKA2AuMFDMcJuIdHBDaNRskYQPmZIv_1A5p0/edit#gid=1308189912) 
 or 
 [qq docs](https://docs.qq.com/sheet/DY0JTcGNjT3NFcWNw)
@@ -129,7 +129,7 @@ or
 #### 1. Resolve to two-dimensional array table structure
 Commonjs
 ```javascript
-const XLSX2JSON = require('xlsx-json-js');
+const XLSX2JSON = require('json-key-string-xlsx');
 const xlsx2json = new XLSX2JSON();
 const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
@@ -138,17 +138,17 @@ const nativeData = xlsx2json.parse(xlsxPath);
 ```
 ES Module
 ```js
-import xlsxJsonJs from 'xlsx-json-js';
+import xlsxJsonJs from 'json-key-string-xlsx';
 const xlsx2json = new xlsxJsonJs();
 ```
 UMD
 ```html
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
-<script src="dist/xlsx-json-js.umd.min.js"></script>
+<script src="dist/json-key-string-xlsx.umd.min.js"></script>
 
 <input type="file" name="file" id="file">
 <script type="text/javascript">
-  const xlsx2json = new xlsxJsonJs();
+  const xlsx2json = new jsonKeyStringXlsx();
   function handleFile(e) {
     const files = e.target.files, f = files[0];
     const reader = new FileReader();
@@ -360,7 +360,7 @@ UMD
 #### 2. Resolve to a custom JSON structure
 commonjs
 ```JavaScript
-const XLSX2JSON = require('xlsx-json-js');
+const XLSX2JSON = require('json-key-string-xlsx');
 const xlsx2json = new XLSX2JSON();
 const path = require('path');
 const xlsxPath = path.join('./excel.xlsx');
