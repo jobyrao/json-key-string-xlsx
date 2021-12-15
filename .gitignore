@@ -5,3 +5,5 @@ node_modules/
 test/assets/debug.js
 test/assets/*.json
 package-lock.json
+coverage
+coverage.lcov

@@ -1,7 +1,6 @@
 # json-key-string-xlsx
 
-[![build status](http://img.shields.io/travis/jobyrao/json-key-string-xlsx/master.svg?style=flat)](http://travis-ci.org/jobyrao/json-key-string-xlsx)
-[![Coverage Status](https://coveralls.io/repos/jobyrao/json-key-string-xlsx/badge.svg?branch=)](https://coveralls.io/r/jobyrao/json-key-string-xlsx?branch=master)
+[![codecov](https://codecov.io/gh/jobyrao/json-key-string-xlsx/branch/master/graph/badge.svg?token=OK5M7HAAU7)](https://codecov.io/gh/jobyrao/json-key-string-xlsx)
 [![npm version](https://img.shields.io/npm/v/json-key-string-xlsx.svg?style=flat)](https://www.npmjs.com/package/json-key-string-xlsx)
 [![license](https://img.shields.io/github/license/jobyrao/json-key-string-xlsx.svg)](https://tldrlegal.com/license/mit-license)
 
