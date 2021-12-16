@@ -257,7 +257,7 @@ class XLSX2JSON {
 	  const msg = `sheet name "${sheetName}", row ${rowIndex + 1}, value "${keyDescName}"`;
 	  this.parse2jsonCover.add(msg);
   }
-  json2XlsxByKey(obj) {
+  json2XlsxByKey(obj, outputPath) {
     const result = [];
     if (Array.isArray(obj)) {
       for (let i = 0, len = obj.length; i < len; i++) {
@@ -288,6 +288,16 @@ class XLSX2JSON {
         }
       }
       this.keyStack.pop();
+    }
+    if (outputPath) {
+      const sheetData = XLSX.utils.aoa_to_sheet(result);
+      const workbook = {
+        Sheets: {
+          Sheet1: sheetData
+        },
+        SheetNames: ['Sheet1']
+      }
+      XLSX.writeFile(workbook, outputPath);
     }
     return result;
   }

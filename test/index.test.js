@@ -4,6 +4,7 @@ const chai = require('chai');
 const XLSX2JSON = require('../src/index');
 const xlsx2json = new XLSX2JSON();
 const path = require('path');
+const fs = require('fs');
 
 const expect = chai.expect;
 const testXlsxPath = path.join(__dirname, './assets/excel.xlsx');
@@ -74,11 +75,15 @@ describe('自定义数据结构parse2json解析测试', function() {
 describe('json对象生产excel文件', function() {
   // 解析出来的是列表，项为某个语种的obj
   const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
-  const arr2deep = xlsx2json.json2XlsxByKey(parsedCustomData[0]);
+  const outputPath = path.join(__dirname, 'out.xlsx');
+  const arr2deep = xlsx2json.json2XlsxByKey(parsedCustomData[0], outputPath);
   it('json转为excel平面二维数组一层key正常', function() {
     expect(arr2deep[0][0]).to.be.equal('filename');
   });
   it('json转为excel平面二维数组深度结构正常', function() {
     expect(arr2deep[7][0]).to.be.equal('disclaimer.content[1].c.a[0].b[0]');
+  });
+  it('json转为excel文件', function() {
+    expect(fs.existsSync(outputPath)).to.be.equal(true);
   });
 })
