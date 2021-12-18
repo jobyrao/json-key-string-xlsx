@@ -2,9 +2,6 @@
 const XLSX = require('xlsx');
 
 class XLSX2JSON {
-  constructor() {
-    this.keyStack = [];
-  }
 	/**
 	 *
 	 * @param source filepath or buffer
@@ -127,9 +124,9 @@ class XLSX2JSON {
 		let keyPartDescription = [];
 		if (Array.isArray(match)) {
 			keyPartDescription = [true, attributeDescriptionSplited.split('[')[0], + match[1]];
-		}else if (attributeDescriptionSplited.slice(-2) === '[]') {
+		} else if (attributeDescriptionSplited.slice(-2) === '[]') {
 			keyPartDescription = [true, attributeDescriptionSplited.slice(0, -2), null];
-		}else{
+		} else {
 			keyPartDescription = [false, attributeDescriptionSplited, null];
 		}
 		return keyPartDescription;
@@ -257,37 +254,13 @@ class XLSX2JSON {
 	  const msg = `sheet name "${sheetName}", row ${rowIndex + 1}, value "${keyDescName}"`;
 	  this.parse2jsonCover.add(msg);
   }
-  json2XlsxByKey(obj, outputPath) {
-    const result = [];
-    if (Array.isArray(obj)) {
-      for (let i = 0, len = obj.length; i < len; i++) {
-        if (typeof obj[i] !== 'object') {
-          const preKeys = this.getPreKeyStr();
-          result.push([ `${preKeys}[${i}]`, obj[i] ]);
-        } else {
-          this.keyStack.push({
-            keyName: `[${i}]`,
-            type: 'array'
-          })
-          result.push(...this.json2XlsxByKey(obj[i]));
-        }
-      }
-      this.keyStack.pop();
+  json2XlsxByKey(jsonData, outputPath) {
+	  this.keyStack = [];
+	  let result = [];
+	  if (Array.isArray(jsonData)) {
+      result = this.object2XlsxByKey(...jsonData);
     } else {
-      const keys = Object.keys(obj);
-      for (let i = 0, len = keys.length; i < len; i++) {
-        if (typeof obj[keys[i]] !== 'object') {
-          const preKeys = this.getPreKeyStr();
-          result.push([ (preKeys && preKeys + '.') + keys[i], obj[keys[i]] ]);
-        } else {
-          this.keyStack.push({
-            keyName: keys[i],
-            type: 'object'
-          })
-          result.push(...this.json2XlsxByKey(obj[keys[i]]));
-        }
-      }
-      this.keyStack.pop();
+	    result = this.object2XlsxByKey(jsonData);
     }
     if (outputPath) {
       const sheetData = XLSX.utils.aoa_to_sheet(result);
@@ -298,6 +271,41 @@ class XLSX2JSON {
         SheetNames: ['Sheet1']
       }
       XLSX.writeFile(workbook, outputPath);
+    }
+    return result;
+  }
+  object2XlsxByKey(...objs) {
+    const result = [];
+    const objFirst = objs[0];
+    if (Array.isArray(objFirst)) {
+      for (let i = 0, len = objFirst.length; i < len; i++) {
+        if (typeof objFirst[i] !== 'object') {
+          const preKeys = this.getPreKeyStr();
+          result.push([ `${preKeys}[${i}]`, ...objs.map(obj => obj[i]) ]);
+        } else {
+          this.keyStack.push({
+            keyName: `[${i}]`,
+            type: 'array'
+          })
+          result.push(...this.object2XlsxByKey(...objs.map(obj => obj[i])));
+        }
+      }
+      this.keyStack.pop();
+    } else {
+      const keys = Object.keys(objFirst);
+      for (let i = 0, len = keys.length; i < len; i++) {
+        if (typeof objFirst[keys[i]] !== 'object') {
+          const preKeys = this.getPreKeyStr();
+          result.push([ (preKeys && preKeys + '.') + keys[i], ...objs.map(obj => obj[keys[i]]) ]);
+        } else {
+          this.keyStack.push({
+            keyName: keys[i],
+            type: 'object'
+          })
+          result.push(...this.object2XlsxByKey(...objs.map(obj => obj[keys[i]])));
+        }
+      }
+      this.keyStack.pop();
     }
     return result;
   }

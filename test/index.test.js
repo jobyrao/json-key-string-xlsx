@@ -11,7 +11,7 @@ const testXlsxPath = path.join(__dirname, './assets/excel.xlsx');
 
 describe('原生数据结构parse解析测试', function() {
   const parsedNativeData = xlsx2json.parse(testXlsxPath);
-  const parsedNativeData2 = xlsx2json.parse(testXlsxPath, {entry: 'company', sheets: ['address']});
+  const parsedNativeData2 = xlsx2json.parse(testXlsxPath, {entry: 'company', sheets: ['company', 'address']});
   try {
     // 测试require一个不存在sheetName
     xlsx2json.parse2json(testXlsxPath, {entry: 'requireErr'});
@@ -36,7 +36,7 @@ describe('原生数据结构parse解析测试', function() {
 
 describe('自定义数据结构parse2json解析测试', function() {
   const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
-  const parsedCustomData2 = xlsx2json.parse2json(testXlsxPath, {entry: 'company', sheets: ['address']});
+  const parsedCustomData2 = xlsx2json.parse2json(testXlsxPath, {entry: 'company', sheets: ['company', 'address']});
 
   it('自定义解析：语言码个数完整', function() {
     expect(parsedCustomData.length).to.be.equal(2);
@@ -76,12 +76,16 @@ describe('json对象生产excel文件', function() {
   // 解析出来的是列表，项为某个语种的obj
   const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
   const outputPath = path.join(__dirname, 'out.xlsx');
-  const arr2deep = xlsx2json.json2XlsxByKey(parsedCustomData[0], outputPath);
+  const aoaFromObj = xlsx2json.json2XlsxByKey(parsedCustomData[0]);
+  const aoaFromaoo = xlsx2json.json2XlsxByKey(parsedCustomData, outputPath);
   it('json转为excel平面二维数组一层key正常', function() {
-    expect(arr2deep[0][0]).to.be.equal('filename');
+    expect(aoaFromObj[0][0]).to.be.equal('filename');
+  });
+  it('json转为excel平面二维数组多列值正常', function() {
+    expect(aoaFromaoo[0][2]).to.be.equal('en');
   });
   it('json转为excel平面二维数组深度结构正常', function() {
-    expect(arr2deep[7][0]).to.be.equal('disclaimer.content[1].c.a[0].b[0]');
+    expect(aoaFromObj[7][0]).to.be.equal('disclaimer.content[1].c.a[0].b[0]');
   });
   it('json转为excel文件', function() {
     expect(fs.existsSync(outputPath)).to.be.equal(true);

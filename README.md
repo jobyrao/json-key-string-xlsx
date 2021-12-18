@@ -1,7 +1,10 @@
 # json-key-string-xlsx
 
-[![codecov](https://codecov.io/gh/jobyrao/json-key-string-xlsx/branch/master/graph/badge.svg?token=OK5M7HAAU7)](https://codecov.io/gh/jobyrao/json-key-string-xlsx)
 [![npm version](https://img.shields.io/npm/v/json-key-string-xlsx.svg?style=flat)](https://www.npmjs.com/package/json-key-string-xlsx)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jobyrao/json-key-string-xlsx/Continuous%20integration)
+[![codecov](https://codecov.io/gh/jobyrao/json-key-string-xlsx/branch/master/graph/badge.svg?token=OK5M7HAAU7)](https://codecov.io/gh/jobyrao/json-key-string-xlsx)
+![npms.io (quality)](https://img.shields.io/npms-io/quality-score/json-key-string-xlsx)
+[![GitHub issues](https://img.shields.io/github/issues/jobyrao/json-key-string-xlsx)](https://github.com/jobyrao/json-key-string-xlsx/issues)
 [![license](https://img.shields.io/github/license/jobyrao/json-key-string-xlsx.svg)](https://tldrlegal.com/license/mit-license)
 
 ## Introduction
@@ -209,7 +212,7 @@ If some keys are overwritten, you can get details from `xlsx2json.parse2jsonCove
 ```
 
 #### 2. Convert JSON to xlsx file
-
+The `objData` can also be an array of object.
 ```js
 const XLSX2JSON = require('json-key-string-xlsx');
 const xlsx2json = new XLSX2JSON();
