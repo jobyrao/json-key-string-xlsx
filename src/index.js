@@ -196,11 +196,9 @@ class XLSX2JSON {
         // 当前属性key存在，但不是对象，记录覆盖情况
         this.collectCoverKey(sheetIndex, rowIndex);
         columnObject[keyPartKeyName] = isKeyPartEnd ? (value || '') : {};
-      } else {
-        if (isKeyPartEnd) {
-          this.collectCoverKey(sheetIndex, rowIndex);
-          columnObject[keyPartKeyName] = value || '';
-        }
+      } else if (isKeyPartEnd) {
+        this.collectCoverKey(sheetIndex, rowIndex);
+        columnObject[keyPartKeyName] = value || '';
       }
       return this.createJsonEnumCol(columnObject[keyPartKeyName], key, value, colIndex, rowIndex, sheetIndex);
     }
@@ -270,7 +268,13 @@ class XLSX2JSON {
         },
         SheetNames: ['Sheet1']
       }
-      XLSX.writeFile(workbook, outputPath);
+      if (typeof outputPath === 'string') {
+        XLSX.writeFile(workbook, outputPath);
+      }
+      if (outputPath.type === 'array') {
+        const ab = XLSX.write(workbook, { bookType: 'xlsx', bookSST: false, type: 'array' });
+        return ab;
+      }
     }
     return result;
   }

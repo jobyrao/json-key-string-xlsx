@@ -227,6 +227,7 @@ const objData = {
 }
 const aoaData = xlsx2json.json2XlsxByKey(objData);
 // const aoaData = xlsx2json.json2XlsxByKey(objData, outputPath);
+// const arrayBufferData = xlsx2json.json2XlsxByKey(objData, {type: 'array'});
 ```
 Output file:
 

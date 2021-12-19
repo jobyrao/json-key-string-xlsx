@@ -75,9 +75,12 @@ describe('自定义数据结构parse2json解析测试', function() {
 describe('json对象生产excel文件', function() {
   // 解析出来的是列表，项为某个语种的obj
   const parsedCustomData = xlsx2json.parse2json(testXlsxPath);
-  const outputPath = path.join(__dirname, 'out.xlsx');
   const aoaFromObj = xlsx2json.json2XlsxByKey(parsedCustomData[0]);
+  const outputPath = path.join(__dirname, 'out.xlsx');
   const aoaFromaoo = xlsx2json.json2XlsxByKey(parsedCustomData, outputPath);
+  const outputPath2 = path.join(__dirname, 'out2.xlsx');
+  const ab = xlsx2json.json2XlsxByKey(parsedCustomData, {type: 'array'});
+  fs.writeFileSync(outputPath2, Buffer.from(ab));
   it('json转为excel平面二维数组一层key正常', function() {
     expect(aoaFromObj[0][0]).to.be.equal('filename');
   });
@@ -89,5 +92,6 @@ describe('json对象生产excel文件', function() {
   });
   it('json转为excel文件', function() {
     expect(fs.existsSync(outputPath)).to.be.equal(true);
+    expect(fs.existsSync(outputPath2)).to.be.equal(true);
   });
 })

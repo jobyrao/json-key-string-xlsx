@@ -1,6 +1,6 @@
 {
   "name": "json-key-string-xlsx",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Convert between json and xlsx files by key string in a browser or NodeJS.",
   "main": "dist/json-key-string-xlsx.cjs.min.js",
   "module": "dist/json-key-string-xlsx.esm.min.js",
@@ -19,10 +19,11 @@
     "json",
     "key",
     "xlsx",
-    "json-key",
-    "key-string",
+    "json-key-string",
     "i18n",
-    "language"
+    "language",
+    "多语言",
+    "国际化"
   ],
   "author": "jobyrao<raojianb@mail2.sysu.edu.cn>",
   "homepage": "https://github.com/jobyrao/json-key-string-xlsx#readme",
